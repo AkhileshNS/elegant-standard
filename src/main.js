@@ -1,7 +1,13 @@
 "use strict";
 
-// External Modules
-import cloneDeep from 'lodash.clonedeep';
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.derive = exports.passByValue = exports.get = exports.isUArray = exports.isUnemptyArray = exports.isArray = exports.isUObject = exports.isUnemptyObject = exports.isObject = exports.isNumber = exports.isDayOfWeek = exports.allOf = exports.oneOf = exports.test = exports.isEmail = exports.isBoolean = exports.isUString = exports.isUnemptyString = exports.isString = exports.check = exports.define = exports.type = void 0;
+
+var _lodash = _interopRequireDefault(require("lodash.clonedeep"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
@@ -19,15 +25,19 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 /*
   A function to extract the type of an element using Object.prototype.toString.call(element)
 */
-export var type = function type(el) {
+var type = function type(el) {
   return Object.prototype.toString.call(el).split(" ")[1].slice(0, -1).toLowerCase();
 };
 
-export var define = function define(el, def) {
+exports.type = type;
+
+var define = function define(el, def) {
   return el !== undefined && el !== null ? el : def !== undefined && def !== null ? def : [];
 };
 
-export var check = function check(el, Type, def) {
+exports.define = define;
+
+var check = function check(el, Type, def) {
   return type(el) === Type ? el : Type === "array" ? [] : Type === "object" ? {} : def !== undefined && def !== null ? def : null;
 };
 /*
@@ -36,33 +46,46 @@ export var check = function check(el, Type, def) {
 */
 
 
-export var isString = function isString(el) {
+exports.check = check;
+
+var isString = function isString(el) {
   return type(el) === "string";
 };
 
-export var isUnemptyString = function isUnemptyString(el) {
+exports.isString = isString;
+
+var isUnemptyString = function isUnemptyString(el) {
   return isString(el) && el !== "";
 };
 
-export var isUString = isUnemptyString;
+exports.isUnemptyString = isUnemptyString;
+var isUString = isUnemptyString;
 /*
   Boolean functions
   =================
 */
 
-export var isBoolean = function isBoolean(el) {
+exports.isUString = isUString;
+
+var isBoolean = function isBoolean(el) {
   return type(el) === "boolean";
 };
 
-export var isEmail = function isEmail(el) {
+exports.isBoolean = isBoolean;
+
+var isEmail = function isEmail(el) {
   return /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/.test(el);
 };
 
-export var test = function test(el, regex) {
+exports.isEmail = isEmail;
+
+var test = function test(el, regex) {
   return isUString(el) && type(regex) === "regexp" ? regex.test(el) : false;
 };
 
-export var oneOf = function oneOf(el, arr) {
+exports.test = test;
+
+var oneOf = function oneOf(el, arr) {
   if (isUArray(arr)) {
     for (var i = 0; i < arr.length; i++) {
       if (type(arr[i]) === "regexp" && arr[i].test(el)) {
@@ -76,7 +99,9 @@ export var oneOf = function oneOf(el, arr) {
   return false;
 };
 
-export var allOf = function allOf(el, arr) {
+exports.oneOf = oneOf;
+
+var allOf = function allOf(el, arr) {
   var matchesAll = 0;
 
   if (isUArray(arr)) {
@@ -92,7 +117,9 @@ export var allOf = function allOf(el, arr) {
   return matchesAll === arr.length;
 };
 
-export var isDayOfWeek = function isDayOfWeek(el) {
+exports.allOf = allOf;
+
+var isDayOfWeek = function isDayOfWeek(el) {
   return oneOf(el, [/monday/i, /tuesday/i, /wednesday/i, /thursday/i, /friday/i, /saturday/i, /sunday/i]) || oneOf(el, [/mon/i, /tues/i, /wed/i, /thurs/i, /fri/i, /sat/i, /sun/i]);
 };
 /*
@@ -101,7 +128,9 @@ export var isDayOfWeek = function isDayOfWeek(el) {
 */
 
 
-export var isNumber = function isNumber(el) {
+exports.isDayOfWeek = isDayOfWeek;
+
+var isNumber = function isNumber(el) {
   return type(el) === "number";
 };
 /*
@@ -110,31 +139,42 @@ export var isNumber = function isNumber(el) {
 */
 
 
-export var isObject = function isObject(el) {
+exports.isNumber = isNumber;
+
+var isObject = function isObject(el) {
   return type(el) === "object";
 };
 
-export var isUnemptyObject = function isUnemptyObject(el) {
+exports.isObject = isObject;
+
+var isUnemptyObject = function isUnemptyObject(el) {
   return isObject(el) && Object.entries(el).length > 0;
 };
 
-export var isUObject = isUnemptyObject;
+exports.isUnemptyObject = isUnemptyObject;
+var isUObject = isUnemptyObject;
 /*
   Array Functions
   ===============
 */
 
-export var isArray = function isArray(el) {
+exports.isUObject = isUObject;
+
+var isArray = function isArray(el) {
   return type(el) === "array";
 };
 
-export var isUnemptyArray = function isUnemptyArray(el) {
+exports.isArray = isArray;
+
+var isUnemptyArray = function isUnemptyArray(el) {
   return isArray(el) && el.length > 0;
 };
 
-export var isUArray = isUnemptyArray;
+exports.isUnemptyArray = isUnemptyArray;
+var isUArray = isUnemptyArray;
+exports.isUArray = isUArray;
 
-export var get = function get(arr, index, def) {
+var get = function get(arr, index, def) {
   return !isNumber(index) ? def !== undefined && def !== null ? def : null : index < arr.length && index >= 0 ? arr[index] : index < 0 && index >= -arr.length ? arr[arr.length + index] : def !== undefined && def !== null ? def : null;
 };
 /*
@@ -143,13 +183,17 @@ export var get = function get(arr, index, def) {
 */
 
 /* a HOC to declare Pass By Value Functions */
-export var passByValue = function passByValue(func) {
+
+
+exports.get = get;
+
+var passByValue = function passByValue(func) {
   return function () {
     var params = [];
 
     for (var i = 0; i < arguments.length; i++) {
       var value = i < 0 || arguments.length <= i ? undefined : arguments[i];
-      params.push(oneOf(type(value), [/object/i, /array/i]) ? cloneDeep(value) : value);
+      params.push(oneOf(type(value), [/object/i, /array/i]) ? (0, _lodash.default)(value) : value);
     }
 
     func.apply(void 0, params);
@@ -160,7 +204,9 @@ export var passByValue = function passByValue(func) {
        o/p - { trigger: stores.appStore.trigger } */
 
 
-export var derive = function derive(mapping) {
+exports.passByValue = passByValue;
+
+var derive = function derive(mapping) {
   return function (stores) {
     var res = null;
 
@@ -190,3 +236,5 @@ export var derive = function derive(mapping) {
     return res;
   };
 };
+
+exports.derive = derive;

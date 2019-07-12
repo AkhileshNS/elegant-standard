@@ -13,6 +13,7 @@
     "url": "git+https://github.com/AkhileshNS/elegant-standard.git"
   },
   "main": "src/main.js",
+  "module": "src/main.es6.js",
   "dependencies": {
     "lodash.clonedeep": "^4.5.0"
   },
