@@ -14,6 +14,12 @@ export const define = (el, def) =>
   (el!==undefined && el!==null) ? el :
   (def!==undefined && def!==null) ? def :
   []
+export const check = (el, Type, def) => 
+  type(el)===Type ? el : 
+  Type==="array" ? [] :
+  Type==="object" ? {} :
+  def!==undefined && def!==null ? def :
+  null;
 
 /*
   String functions
