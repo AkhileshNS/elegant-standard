@@ -26,6 +26,10 @@ export var type = function type(el) {
 export var define = function define(el, def) {
   return el !== undefined && el !== null ? el : def !== undefined && def !== null ? def : [];
 };
+
+export var check = function check(el, Type, def) {
+  return type(el) === Type ? el : Type === "array" ? [] : Type === "object" ? {} : def !== undefined && def !== null ? def : null;
+};
 /*
   String functions
   ================
