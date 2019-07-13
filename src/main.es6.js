@@ -28,6 +28,10 @@ export const check = (el, Type, def) =>
 export const isString = el => type(el)==="string";
 export const isUnemptyString = el => isString(el) && el!=="";
 export const isUString = isUnemptyString;
+export const isSame = (str1, str2) => 
+  isString(str1) && isString(str2) ? str1.toUpperCase()===str2.toUpperCase() : false;
+export const contains = (str1, str2) => 
+  isString(str1) && isString(str2) ? str1.toUpperCase().includes(str2.toUpperCase()) : false;
 
 /*
   Boolean functions

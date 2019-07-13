@@ -38,6 +38,14 @@ function isUnemptyString(el) {
 };
 var isUString = isUnemptyString;
 
+function isSame(str1, str2) {
+  return isString(str1) && isString(str2) ? str1.toUpperCase()===str2.toUpperCase() : false;
+} 
+
+function contains(str1, str2) {
+  return isString(str1) && isString(str2) ? str1.toUpperCase().includes(str2.toUpperCase()) : false; 
+}
+
 /*
   Boolean functions
   =================
@@ -195,7 +203,7 @@ module.exports = {
   type, define, check,
 
   // String Functions
-  isString, isUnemptyString, isUString,
+  isString, isUnemptyString, isUString, isSame, contains,
 
   // Boolean Functions
   isBoolean, test, oneOf, allOf, isEmail, isDayOfWeek,
