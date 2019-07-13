@@ -104,14 +104,14 @@ export const get = (arr, index, def) =>
 */
 /* a HOC to declare Pass By Value Functions */
 export const passByValue = func => {
-  return (...values) => {
+  return function() {
     let params = [];
-    for (let i=0; i<values.length; i++) {
-      let value = values[i];
+    for (let i=0; i<arguments.length; i++) {
+      let argument = arguments[i];
       params.push(
-        oneOf(type(value), [/object/i, /array/i]) ? 
-        cloneDeep(value) : 
-        value
+        oneOf(type(argument), [/object/i, /array/i]) ? 
+        cloneDeep(argument) : 
+        argument
       );
     }
     func(...params);
