@@ -25,6 +25,26 @@ function check(el, Type, def) {
     null;
 };
 
+function contains(el1, el2) {
+  if (isString(el1) && isString(el2)) {
+    return el1.toUpperCase().includes(el2.toUpperCase());
+  }
+
+  if (isArray(el1) && isString(el2)) {
+    for (var i = 0; i < el1.length; i++) {
+      if (isString(el1[i]) && el1[i].toUpperCase() === el2.toUpperCase()) {
+        return true;
+      }
+    }
+  }
+
+  if (isArray(el1) && !isString(el2)) {
+    return el1.includes(el2);
+  }
+
+  return false;
+};
+
 /*
   String functions
   ================
@@ -40,10 +60,6 @@ var isUString = isUnemptyString;
 
 function isSame(str1, str2) {
   return isString(str1) && isString(str2) ? str1.toUpperCase()===str2.toUpperCase() : false;
-} 
-
-function contains(str1, str2) {
-  return isString(str1) && isString(str2) ? str1.toUpperCase().includes(str2.toUpperCase()) : false; 
 }
 
 /*
@@ -200,10 +216,10 @@ function derive(mapping) {
 
 module.exports = {
   // Common Functions
-  type, define, check,
+  type, define, check, contains,
 
   // String Functions
-  isString, isUnemptyString, isUString, isSame, contains,
+  isString, isUnemptyString, isUString, isSame, 
 
   // Boolean Functions
   isBoolean, test, oneOf, allOf, isEmail, isDayOfWeek,

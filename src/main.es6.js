@@ -20,6 +20,22 @@ export const check = (el, Type, def) =>
   Type==="object" ? {} :
   def!==undefined && def!==null ? def :
   null;
+export const contains = (el1, el2) => {
+  if (isString(el1) && isString(el2)) {
+    return el1.toUpperCase().includes(el2.toUpperCase());
+  }
+  if (isArray(el1) && isString(el2)) {
+    for (let i=0; i<el1.length; i++) {
+      if (isString(el1[i]) && el1[i].toUpperCase()===el2.toUpperCase()) {
+        return true;
+      }
+    }
+  }
+  if (isArray(el1) && !isString(el2)) {
+    return el1.includes(el2);
+  }
+  return false;
+}
 
 /*
   String functions
@@ -30,8 +46,6 @@ export const isUnemptyString = el => isString(el) && el!=="";
 export const isUString = isUnemptyString;
 export const isSame = (str1, str2) => 
   isString(str1) && isString(str2) ? str1.toUpperCase()===str2.toUpperCase() : false;
-export const contains = (str1, str2) => 
-  isString(str1) && isString(str2) ? str1.toUpperCase().includes(str2.toUpperCase()) : false;
 
 /*
   Boolean functions
