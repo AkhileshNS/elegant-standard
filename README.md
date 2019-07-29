@@ -44,14 +44,14 @@ const {type, check /*etc*/} = require('elegant-standard');
 | 2    | [define](#define)                       | A function to handle `undefined` and `null`                  |
 | 3    | [check](#check)                         | A function that combines `type` and `define`                 |
 | 4    | [isString](#isString)                   | A function to check if an element is a String                |
-| 5    | [isUString](#isUnemptyString/isUString) | A function to check if an element is a String and it isn't empty |
+| 5    | [isUString](#isUnemptyString or isUString) | A function to check if an element is a String and it isn't empty |
 | 6    | [isBoolean](#isBoolean)                 | A function to check if an element is a Boolean               |
 | 7    | [isNumber](#isNumber)                   | A function to check if an element is a Number                |
 | 8    | [isRegExp](#isRegExp)                   | A function to check if an element is a Reguler Expression    |
 | 9    | [isObject](#isObject)                   | A function to check if an element is an Object               |
-| 10   | [isUObject](#isUnemptyObject/isUObject) | A function to check if an element is an Object and if the Object has properties |
+| 10   | [isUObject](#isUnemptyObject or isUObject) | A function to check if an element is an Object and if the Object has properties |
 | 11   | [isArray](#isArray)                     | A function to check if an element is an Array                |
-| 12   | [isUArray](#isUnemptyArray/isUArray)    | A function to check if an element is an Array and if it isn't empty |
+| 12   | [isUArray](#isUnemptyArray or isUArray)    | A function to check if an element is an Array and if it isn't empty |
 | 13   | [isEquivalent](#isEquivalent)           | A function to check if two strings are equal while ignoring case |
 | 14   | [isSimilar](#isSimilar)                 | A function to check if two string or a string and a number are equivalent |
 | 15   | [isEmail](#isEmail)                     | A function to check if a string is of the format "placeholder@placeholder.placeholder" |
@@ -277,7 +277,7 @@ const {type, check /*etc*/} = require('elegant-standard');
   isString("");        // prints true
   ```
 
-- ### isUnemptyString/isUString
+- ### isUnemptyString or isUString
 
   **arguments**: 
 
@@ -415,7 +415,7 @@ const {type, check /*etc*/} = require('elegant-standard');
   isObject({});        // prints true
   ```
 
-- ### isUnemptyObject/isUObject
+- ### isUnemptyObject or isUObject
 
   **arguments**: 
 
@@ -472,7 +472,7 @@ const {type, check /*etc*/} = require('elegant-standard');
   isArray([]);        // prints true
   ```
 
-- ### isUnemptyArray/isUArray
+- ### isUnemptyArray or isUArray
 
   **arguments**: 
 
