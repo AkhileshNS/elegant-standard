@@ -38,28 +38,28 @@ const {type, check /*etc*/} = require('elegant-standard');
 
 ## The Functions
 
-| id   | Name                                      | Description                                                  |
-| ---- | ----------------------------------------- | ------------------------------------------------------------ |
-| 1    | [type](type)                              | A better alternative to JavaScript's `typeof`                |
-| 2    | [define](define)                          | A function to handle `undefined` and `null`                  |
-| 3    | [check](check)                            | A function that combines `type` and `define`                 |
-| 4    | [isString](isString)                      | A function to check if an element is a String                |
-| 5    | [isUString](isUnemptyString/isUString) | A function to check if an element is a String and it isn't empty |
-| 6    | [isBoolean](isBoolean)                    | A function to check if an element is a Boolean               |
-| 7    | [isNumber](isNumber)                      | A function to check if an element is a Number                |
-| 8    | [isRegExp](isRegExp)                      | A function to check if an element is a Reguler Expression    |
-| 9    | [isObject](isObject)                      | A function to check if an element is an Object               |
-| 10   | [isUObject](isUnemptyObject/isUObject) | A function to check if an element is an Object and if the Object has properties |
-| 11   | [isArray](isArray)                        | A function to check if an element is an Array                |
-| 12   | [isUArray](isUnemptyArray/isUArray)    | A function to check if an element is an Array and if it isn't empty |
-| 13   | [isEquivalent](isEquivalent)              | A function to check if two strings are equal while ignoring case |
-| 14   | [isSimilar](isSimilar)                    | A function to check if two string or a string and a number are equivalent |
-| 15   | [isEmail](isEmail)                        | A function to check if a string is of the format "placeholder@placeholder.placeholder" |
-| 16   | [contains](contains)                      | An `includes` alternative that ignores case                  |
-| 17   | [test](test)                              | An alternative to `.test()` that ignores numbers             |
-| 18   | [oneOf](oneOf)                            | A function that allows for running multiple regex tests or string comparisons on a single string and seeing if it passes atleast one of them |
-| 19   | [allOf](allOf)                            | A function that allows for running multiple regex tests or string comparisons on a single string and seeing if it passes all of them |
-| 20   | [get](get)                                | A function that elegantly retrieves items in an array        |
+| id   | Name                                    | Description                                                  |
+| ---- | --------------------------------------- | ------------------------------------------------------------ |
+| 1    | [type](#type)                           | A better alternative to JavaScript's `typeof`                |
+| 2    | [define](#define)                       | A function to handle `undefined` and `null`                  |
+| 3    | [check](#check)                         | A function that combines `type` and `define`                 |
+| 4    | [isString](#isString)                   | A function to check if an element is a String                |
+| 5    | [isUString](#isUnemptyString/isUString) | A function to check if an element is a String and it isn't empty |
+| 6    | [isBoolean](#isBoolean)                 | A function to check if an element is a Boolean               |
+| 7    | [isNumber](#isNumber)                   | A function to check if an element is a Number                |
+| 8    | [isRegExp](#isRegExp)                   | A function to check if an element is a Reguler Expression    |
+| 9    | [isObject](#isObject)                   | A function to check if an element is an Object               |
+| 10   | [isUObject](#isUnemptyObject/isUObject) | A function to check if an element is an Object and if the Object has properties |
+| 11   | [isArray](#isArray)                     | A function to check if an element is an Array                |
+| 12   | [isUArray](#isUnemptyArray/isUArray)    | A function to check if an element is an Array and if it isn't empty |
+| 13   | [isEquivalent](#isEquivalent)           | A function to check if two strings are equal while ignoring case |
+| 14   | [isSimilar](#isSimilar)                 | A function to check if two string or a string and a number are equivalent |
+| 15   | [isEmail](#isEmail)                     | A function to check if a string is of the format "placeholder@placeholder.placeholder" |
+| 16   | [contains](#contains)                   | An `includes` alternative that ignores case                  |
+| 17   | [test](#test)                           | An alternative to `.test()` that ignores numbers             |
+| 18   | [oneOf](#oneOf)                         | A function that allows for running multiple regex tests or string comparisons on a single string and seeing if it passes atleast one of them |
+| 19   | [allOf](#allOf)                         | A function that allows for running multiple regex tests or string comparisons on a single string and seeing if it passes all of them |
+| 20   | [get](#get)                             | A function that elegantly retrieves items in an array        |
 
 - ### type
 
