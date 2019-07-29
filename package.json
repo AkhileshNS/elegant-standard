@@ -12,8 +12,8 @@
     "type": "git",
     "url": "git+https://github.com/AkhileshNS/elegant-standard.git"
   },
-  "main": "src/main.js",
-  "module": "src/main.es6.js",
+  "main": "prod/main.js",
+  "module": "prod/main.es6.js",
   "dependencies": {},
   "scripts": {
     "test": "jest test/test.js"

@@ -19,7 +19,7 @@ const {
   oneOf, // 18
   allOf, // 19
   get, //20
-} = require('../src/main');
+} = require('../prod/main.converted');
 
 describe("elegant-standard", () => {
   it("should be better alternative to JavaScript's typeof", () => {
