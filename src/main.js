@@ -1,5 +1,3 @@
-const cloneDeep = require('lodash.clonedeep');
-
 /*
   Common Functions
   ================
@@ -8,58 +6,73 @@ const cloneDeep = require('lodash.clonedeep');
 /*
   A function to extract the type of an element using Object.prototype.toString.call(element)
 */
-function type(el) {
-  return Object.prototype.toString.call(el).split(" ")[1].slice(0, -1).toLowerCase();
-};
+function type(element) {
+  return Object.prototype.toString.call(element).split(" ")[1].slice(0,  -1).toLowerCase();
+}
+var Type = type;
 
 function define(el, def) {
-  return el !== undefined && el !== null ? el : def !== undefined && def !== null ? def : [];
+  return (
+    el !== undefined && el !== null ? el : 
+  	def !== undefined && def !== null ? def : 
+  	[]
+  );
 };
 
-function check(el, Type, def) {
-  Type = Type===undefined ? "array" : Type;
-  return type(el) === Type ? el : 
-    Type === "array" ? [] : 
-    Type === "object" ? {} : 
-    def !== undefined && def !== null ? def : 
-    null;
+function check(el, type, def) {
+  type = Type(type)!=="string" ? "array" : type.toLowerCase();
+  return (
+  	Type(el)===type ? el :
+    def!==undefined && def!==null ? def :
+    type==="object" ? {} : 
+    type==="array" ? [] :
+    null
+  );
 };
 
-function contains(el1, el2) {
-  if (isString(el1) && isString(el2)) {
-    return el1.toUpperCase().includes(el2.toUpperCase());
+function contains(element1, element2) {
+  if (isString(element1) && isString(element2)) {
+    return element1.toUpperCase().includes(element2.toUpperCase());
   }
-
-  if (isArray(el1) && isString(el2)) {
-    for (var i = 0; i < el1.length; i++) {
-      if (isString(el1[i]) && el1[i].toUpperCase() === el2.toUpperCase()) {
+  
+  if (isArray(element1)) {
+    var el2 = isString(element2) ? element2.toUpperCase() : element2;
+    for (var i=0; i<element1.length; i++) {
+      var el1 = isString(element1[i]) ? element1[i].toUpperCase() : element1[i];
+      if (el1===el2) {
         return true;
       }
     }
   }
 
-  if (isArray(el1) && !isString(el2)) {
-    return el1.includes(el2);
-  }
-
   return false;
-};
+}
 
 /*
   String functions
   ================
 */
-function isString(el) {
-  return type(el) === "string";
+function isString(element) {
+  return type(element) === "string";
 };
 
-function isUnemptyString(el) {
-  return isString(el) && el !== "";
+function isUnemptyString(element) {
+  return isString(element) && element !== "";
 };
 var isUString = isUnemptyString;
 
-function isSame(str1, str2) {
-  return isString(str1) && isString(str2) ? str1.toUpperCase()===str2.toUpperCase() : false;
+function isEquivalent(str1, str2) {
+  return isString(str1) && isString(str2) 
+    ? str1.toUpperCase()===str2.toUpperCase()
+    : false;
+}
+
+function isSimilar(element1, element2){
+  var _element1 = isNumber(element1) ? String(element1) : element1;
+  var _element2 = isNumber(element2) ? String(element2) : element2;
+  return isString(_element1) && isString(_element2) 
+    ? _element1.toUpperCase()===_element2.toUpperCase()
+    : false;
 }
 
 /*
@@ -67,42 +80,50 @@ function isSame(str1, str2) {
   =================
 */
 
-function isBoolean(el) {
-  return type(el) === "boolean";
+function isBoolean(element) {
+  return type(element) === "boolean";
 };
 
-function isEmail(el) {
-  return /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/.test(el);
+function isRegExp(element) {
+  return type(element) === "regexp";
+} 
+
+function isEmail(element) {
+  return isString(element) ? /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/.test(element) : false;
+}
+
+function test(element, regex) {
+  return isUString(element) && type(regex) === "regexp" ? regex.test(element) : false;
 };
 
-function test(el, regex) {
-  return isUString(el) && type(regex) === "regexp" ? regex.test(el) : false;
-};
-
-function oneOf(el, arr) {
-  if (isUArray(arr)) {
-    for (var i = 0; i < arr.length; i++) {
-      if (type(arr[i]) === "regexp" && arr[i].test(el)) {
+function oneOf(str, arr) {
+  if (!isString(str)) {
+    return false;
+  }
+  
+  if (isArray(arr)) {
+    for (var i=0; i<arr.length; i++) {
+      if (isRegExp(arr[i]) && arr[i].test(str)) {
         return true;
-      } else if (isString(arr[i]) && arr[i] === el) {
+      } else if (isString(arr[i]) && arr[i]===str) {
         return true;
       }
     }
   }
-
   return false;
-};
+}
 
-function allOf(el, arr) {
+function allOf(str, arr) {
+  if (!isString(str) || !isUArray(arr)) {
+    return false;
+  }
   var matchesAll = 0;
-
-  if (isUArray(arr)) {
-    for (var i = 0; i < arr.length; i++) {
-      if (type(arr[i]) === "regexp" && arr[i].test(el)) {
-        matchesAll += 1;
-      } else if (isString(arr[i]) && arr[i] === el) {
-        matchesAll += 1;
-      }
+    
+  for (var i = 0; i < arr.length; i++) {
+    if (isRegExp(arr[i]) && arr[i].test(str)) {
+      matchesAll += 1;
+    } else if (isString(arr[i]) && arr[i] === str) {
+      matchesAll += 1;
     }
   }
 
@@ -153,36 +174,17 @@ var isUArray = isUnemptyArray;
 
 function get(arr, index, def) {
   return !isNumber(index) ? 
-  def !== undefined && def !== null ? def : 
-  null : 
-  index < arr.length && index >= 0 ? arr[index] : 
-  index < 0 && index >= -arr.length ? arr[arr.length + index] : 
-  def !== undefined && def !== null ? def : 
-  null;
-};
+    def !== undefined && def !== null ? def : 
+    null : 
+    index < arr.length && index >= 0 ? arr[index] : 
+    def !== undefined && def !== null ? def : 
+    null;
+}
 
 /*
   Higher-Order Functions
   ======================
 */
-
-/* a HOC to declare Pass By Value Functions */
-function passByValue(func) {
-  return function () {
-    var params = [];
-
-    for (var i = 0; i < arguments.length; i++) {
-      var value = arguments[i];
-      params.push(
-        oneOf(type(value), [/object/i, /array/i]) ? 
-        cloneDeep(value) : 
-        value
-      );
-    }
-
-    func.apply(void 0, params);
-  };
-};
 
 /* A HOC that maps the default inject function: stores => {} [Object that will be passed as props]
    Ex: i/p - { trigger: "appStore" }
@@ -196,7 +198,7 @@ function derive(mapping) {
       var storeKey = key;
 
       if (storeName.includes('.')) {
-        let NameAndKey = storeName.split('.');
+        var NameAndKey = storeName.split('.');
         storeName = NameAndKey[0];
         storeKey = NameAndKey[1];
       }
@@ -219,10 +221,10 @@ module.exports = {
   type, define, check, contains,
 
   // String Functions
-  isString, isUnemptyString, isUString, isSame, 
+  isString, isUnemptyString, isUString, isEquivalent, isSimilar, 
 
   // Boolean Functions
-  isBoolean, test, oneOf, allOf, isEmail, isDayOfWeek,
+  isBoolean, test, oneOf, allOf, isEmail, isDayOfWeek, isRegExp, 
   
   // Numerical Functions
   isNumber,
@@ -234,5 +236,5 @@ module.exports = {
   isArray, isUnemptyArray, isUArray, get,
 
   // Higher Order Functions
-  passByValue, derive
+  derive
 };

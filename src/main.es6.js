@@ -1,6 +1,3 @@
-// External Modules
-import cloneDeep from 'lodash.clonedeep';
-
 /*
   Common Functions
   ================
@@ -10,30 +7,36 @@ import cloneDeep from 'lodash.clonedeep';
   A function to extract the type of an element using Object.prototype.toString.call(element)
 */
 export const type = el => Object.prototype.toString.call(el).split(" ")[1].slice(0, -1).toLowerCase();
+const Type = type;
 export const define = (el, def) => 
   (el!==undefined && el!==null) ? el :
   (def!==undefined && def!==null) ? def :
   []
-export const check = (el, Type, def) => 
-  type(el)===Type ? el : 
-  Type==="array" ? [] :
-  Type==="object" ? {} :
-  def!==undefined && def!==null ? def :
-  null;
-export const contains = (el1, el2) => {
-  if (isString(el1) && isString(el2)) {
-    return el1.toUpperCase().includes(el2.toUpperCase());
+export const check = (el, type, def) => {
+  type = !isString(type) ? "array" : type.toLowerCase();
+  return (
+  	Type(el)===type ? el :
+    def!==undefined && def!==null ? def :
+    type==="object" ? {} : 
+    type==="array" ? [] :
+    null
+  );
+}
+export const contains = (element1, element2) => {
+  if (isString(element1) && isString(element2)) {
+    return element1.toUpperCase().includes(element2.toUpperCase());
   }
-  if (isArray(el1) && isString(el2)) {
-    for (let i=0; i<el1.length; i++) {
-      if (isString(el1[i]) && el1[i].toUpperCase()===el2.toUpperCase()) {
+  
+  if (isArray(element1)) {
+    let el2 = isString(element2) ? element2.toUpperCase() : element2;
+    for (let i=0; i<element1.length; i++) {
+      let el1 = isString(element1[i]) ? element1[i].toUpperCase() : element1[i];
+      if (el1===el2) {
         return true;
       }
     }
   }
-  if (isArray(el1) && !isString(el2)) {
-    return el1.includes(el2);
-  }
+
   return false;
 }
 
@@ -44,43 +47,57 @@ export const contains = (el1, el2) => {
 export const isString = el => type(el)==="string";
 export const isUnemptyString = el => isString(el) && el!=="";
 export const isUString = isUnemptyString;
-export const isSame = (str1, str2) => 
-  isString(str1) && isString(str2) ? str1.toUpperCase()===str2.toUpperCase() : false;
+export const isEquivalent = (str1, str2) => 
+  isString(str1) && isString(str2) 
+  ? str1.toUpperCase()===str2.toUpperCase()
+  : false
+export const isSimilar = (element1, element2) => {
+  let _element1 = isNumber(element1) ? String(element1) : element1;
+  let _element2 = isNumber(element2) ? String(element2) : element2;
+  return isString(_element1) && isString(_element2) 
+    ? _element1.toUpperCase()===_element2.toUpperCase()
+    : false;
+}
 
 /*
   Boolean functions
   =================
 */
 export const isBoolean = el => type(el)==="boolean";
-export const isEmail = el => /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/.test(el);
-export const test = (el, regex) => isUString(el) && type(regex)==="regexp" ? regex.test(el) : false;
-export const oneOf = (el, arr) => {
-  if (isUArray(arr)) {
-    for (let i=0; i<arr.length; i++) {
-      if (type(arr[i])==="regexp" && arr[i].test(el)) {
+export const isRegExp = el => type(el)==="regexp";
+export const isEmail = el => isString(el) && /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/.test(el);
+export const test = (el, regex) => isUString(el) && isRegExp(regex) ? regex.test(el) : false;
+export const oneOf = (str, arr) => {
+  if (!isString(str)) {
+    return false;
+  }
+  
+  if (isArray(arr)) {
+    for (var i=0; i<arr.length; i++) {
+      if (isRegExp(arr[i]) && arr[i].test(str)) {
         return true;
-      } else if (isString(arr[i]) && arr[i]===el) {
+      } else if (isString(arr[i]) && arr[i]===str) {
         return true;
       }
     }
   }
-
   return false;
 }
-export const allOf = (el, arr) => {
-  let matchesAll = 0;
-
-  if (isUArray(arr)) {
-    for (let i=0; i<arr.length; i++) {
-      if (type(arr[i])==="regexp" && arr[i].test(el)) {
-        matchesAll += 1;
-      } else if (isString(arr[i]) && arr[i]===el) {
-        matchesAll += 1;
-      }
+export const allOf = (str, arr) => {
+  if (!isString(str) || !isUArray(arr)) {
+    return false;
+  }
+  var matchesAll = 0;
+    
+  for (var i = 0; i < arr.length; i++) {
+    if (isRegExp(arr[i]) && arr[i].test(str)) {
+      matchesAll += 1;
+    } else if (isString(arr[i]) && arr[i] === str) {
+      matchesAll += 1;
     }
   }
 
-  return matchesAll===arr.length;
+  return matchesAll === arr.length;
 }
 export const isDayOfWeek = el => 
   oneOf(el, [/monday/i,/tuesday/i,/wednesday/i,/thursday/i,/friday/i,/saturday/i,/sunday/i]) ||
@@ -109,32 +126,16 @@ export const isUnemptyArray = el => isArray(el) && el.length>0;
 export const isUArray = isUnemptyArray;
 export const get = (arr, index, def) => 
   !isNumber(index) ? 
-  (def!==undefined && def!==null) ? def :
+  def !== undefined && def !== null ? def : 
   null : 
-  (index < arr.length && index >= 0) ? arr[index] : 
-  (index < 0 && index >= -arr.length) ? arr[arr.length + index] : 
-  (def !== undefined && def !== null) ? def : 
+  index < arr.length && index >= 0 ? arr[index] : 
+  def !== undefined && def !== null ? def : 
   null;
 
 /*
   Higher-Order Functions
   ======================
 */
-/* a HOC to declare Pass By Value Functions */
-export const passByValue = func => {
-  return function() {
-    let params = [];
-    for (let i=0; i<arguments.length; i++) {
-      let argument = arguments[i];
-      params.push(
-        oneOf(type(argument), [/object/i, /array/i]) ? 
-        cloneDeep(argument) : 
-        argument
-      );
-    }
-    func(...params);
-  } 
-}
 
 /* A HOC that maps the default inject function: stores => {} [Object that will be passed as props]
    Ex: i/p - { trigger: "appStore" }
