@@ -1,5 +1,13 @@
 # Elegant Standard
 
+![npm bundle size](https://img.shields.io/bundlephobia/minzip/elegant-standard)
+
+![GitHub issues](https://img.shields.io/github/issues/AkhileshNS/elegant-standard)
+
+![GitHub](https://img.shields.io/github/license/AkhileshNS/elegant-standard)
+
+![GitHub package.json version](https://img.shields.io/github/package-json/v/AkhileshNS/elegant-standard)
+
 JavaScript is often filled with weird surprises that can catch people off guard (often the tradeoff for the incredible flexibility it provides). To combat this, we, at onCreators use an in-house standard called the elegant standard, quite literally called that to emphasize on writing code that elegantly handles any bizarre or unforeseen scenarios in JS.
 
 The Elegant Standard as well as being a standard (set of rules) which developers can follow in order to ensure that their code is better handled is also a library that provides various convenience functions to do the same. On that note, the standard can be broken up into two major parts:-
@@ -501,17 +509,17 @@ const {type, check /*etc*/} = require('elegant-standard');
 
   **arguments**:
 
-  - element1: String
-  - element2: String
+  - str1: String
+  - str2: String
 
   **output**: Boolean
 
   **source**:
 
   ```javascript
-  function isEquivalent(element1, element2) {
-      return isString(element1) && isString(element2) 
-          ? element1.toUpperCase()===element2.toUpperCase()
+  function isEquivalent(str1, str2) {
+      return isString(str1) && isString(str2) 
+          ? str1.toUpperCase()===str2.toUpperCase()
           : false;
   }
   ```
@@ -789,5 +797,11 @@ const {type, check /*etc*/} = require('elegant-standard');
   get(arr, 3); // returns null
   get(arr, 3, -1); // returns -1
   ```
-  
-  
+
+## The Rules
+
+Coming soon...
+
+## License
+
+This library is licensed under the MIT License - check the [LICENSE](https://github.com/AkhileshNS/elegant-standard/blob/master/LICENSE) file for more details.
